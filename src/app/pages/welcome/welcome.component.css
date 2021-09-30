@@ -1,0 +1,23 @@
+:host {
+  font-size: 12px;
+}
+:host ::ng-deep p {
+  margin: 0;
+}
+/* 可以用在组件上样式覆盖，可以改变组件内部样式 */
+:host ::ng-deep app-button p {
+  padding: 20px;
+  font-size: 40px;
+  margin-right: 20px;
+}
+.margint20 {
+  margin-top: 20px;
+  border-bottom: 1px solid red;
+}
+.marginr20 {
+  margin-right: 20px;
+}
+.container {
+  padding: 20px;
+  border: 1px solid red;
+}

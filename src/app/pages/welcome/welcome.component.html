@@ -1,0 +1,97 @@
+<form (submit)="addSkill(skill.value, $event)" class="container margint20">
+  <label>添加技能 test directive</label>
+  <input
+    type="text"
+    #skill
+    creditCard
+    [appHighlight]="color"
+    defaultColor="yellow"
+    [value]="mount"
+    (input)="changeCardNumber($event)"
+  />
+  <span>{{ creditCardNumber }}</span>
+</form>
+<div
+  tooltip="I am credit card"
+  #tooltip="tooltipDom"
+  class="container margint20"
+>
+  {{ name }}
+  <span (mouseover)="tooltip.show()" (mouseout)="tooltip.hide()">?</span>
+</div>
+
+<div
+  [ngClass]="theme"
+  [ngStyle]="{ display: 'inline-block' }"
+  class="container margint20"
+>
+  test host theme and host css
+  <app-button></app-button>
+  <span (click)="theme = 'red'" class="marginr20">切换红色主题</span>
+  <span (click)="theme = 'blue'">切换蓝色主题</span>
+</div>
+
+<ng-container *ngIf="show">
+  <!-- ngContainer为了不增加额外的DOM元素 -->
+  <ul class="container margint20">
+    <li>ngIF和ngFor不一同用在同一个DOM上</li>
+    <li *ngFor="let skill of skills">
+      {{ skill }}
+    </li>
+  </ul>
+</ng-container>
+
+<div [ngSwitch]="value" class="container margint20">
+  ngSwitch 用ngContainer
+  <!-- 节省了额外的DOM -->
+  <ng-container *ngSwitchCase="0">ng-container display value0</ng-container>
+  <ng-container *ngSwitchCase="1">ng-container display value1</ng-container>
+</div>
+
+<div class="container margint20">
+  <h3>test ng-template ng-container</h3>
+
+  <ng-template>
+    <p>In template, no attributes. so couldn't display</p>
+  </ng-template>
+
+  <ng-template [ngIf]="true">
+    <p>ngIf with a template.so display</p>
+  </ng-template>
+
+  <ng-container *ngIf="true">
+    <p>ngIf with an ng-container.</p>
+  </ng-container>
+</div>
+
+<!-- 动态插入组件 -->
+
+<div class="container margint20" style="position: relative">
+  <ng-template #dynamicComponentContainer></ng-template>
+  动态插入组件
+  <button (click)="createComponent('success')">SUCCESS</button>
+  <button (click)="createComponent('error')">ERROR</button>
+</div>
+
+<div class="container margint20">
+  自定义管道
+  <div *ngFor="let file of files">
+    <p>{{ file.name }}</p>
+    <p>{{ file.size | fileSize: "MB":"TEST" }}</p>
+  </div>
+</div>
+
+<div class="container margint20">
+  <ng-template #stpl let-message="message">
+    <p>{{ message }}</p>
+  </ng-template>
+  <ng-template #atpl let-msg="message">
+    <p>{{ msg }}</p>
+  </ng-template>
+  <ng-template #otpl let-msg>
+    <p>{{ msg }}</p>
+  </ng-template>
+  <div [ngTemplateOutlet]="atpl" [ngTemplateOutletContext]="context"></div>
+  <div [ngTemplateOutlet]="stpl" [ngTemplateOutletContext]="context"></div>
+  <div [ngTemplateOutlet]="otpl" [ngTemplateOutletContext]="context"></div>
+</div>

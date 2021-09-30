@@ -1,0 +1,9 @@
+:host p {
+  width: fit-content;
+}
+:host-context(.red) .btn-theme {
+  color: red;
+}
+:host-context(.blue) .btn-theme {
+  color: blue;
+}

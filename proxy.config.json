@@ -1,0 +1,11 @@
+{
+  "/apidata": {
+    "target": "http://localhost:7001",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/apidata": ""
+    }
+  }
+}

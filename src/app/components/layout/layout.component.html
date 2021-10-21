@@ -1,0 +1,11 @@
+<p><ng-content select="p"></ng-content></p>
+<p><ng-content select="h1"></ng-content></p>
+<div *ngIf="dynamicRef">
+  <ng-content></ng-content>
+  <button (click)="show = !show">
+    {{ show ? "Hide" : "Show" }}
+  </button>
+  <ng-container *ngIf="show"
+    ><template *ngTemplateOutlet="dynamicRef; context: myContext"> </template
+  ></ng-container>
+</div>

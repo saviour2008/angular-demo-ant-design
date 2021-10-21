@@ -1,0 +1,43 @@
+<nz-list
+  nzBordered
+  [nzHeader]="header"
+  [nzLoading]="initLoading"
+  [nzFooter]="footer"
+>
+  <ng-template #header>
+    <div style="text-align: center">filter</div>
+  </ng-template>
+  <nz-list-item *ngFor="let item of data">
+    <ng-container>
+      <nz-list-item-meta
+        [nzAvatar]="item.articlePicture"
+        [nzTitle]="item.title"
+      >
+      </nz-list-item-meta>
+      <div class="content-container">{{ item.content }}</div>
+      <ul nz-list-item-actions>
+        <nz-list-item-action
+          ><a (click)="edit(item.id)">edit</a></nz-list-item-action
+        >
+        <nz-list-item-action
+          ><a (click)="edit(item.id)">more</a></nz-list-item-action
+        >
+      </ul>
+    </ng-container>
+    <nz-skeleton
+      *ngIf="item.loading"
+      [nzAvatar]="true"
+      [nzActive]="true"
+      [nzTitle]="false"
+      [nzLoading]="true"
+    ></nz-skeleton>
+  </nz-list-item>
+
+  <ng-template #footer>
+    <div class="load-more" nz-list-load-more *ngIf="!isEnd">
+      <button nz-button nzType="primary" (click)="onLoadMore()">
+        loading more
+      </button>
+    </div>
+  </ng-template>
+</nz-list>

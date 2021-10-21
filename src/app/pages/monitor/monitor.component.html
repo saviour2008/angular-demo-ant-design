@@ -1,8 +1,37 @@
-<p>monitor works!</p>
-<button nz-button nzType="primary" (click)="postData()">PostData Button</button>
-<button nz-button nzType="primary" (click)="sendAsyncApiRequest()">
+<div class="margin-b20">
+  <button
+    class="margin-r20"
+    nz-button
+    nzType="primary"
+    (click)="navToList()"
+    *ngIf="isCreating"
+  >
+    Display List
+  </button>
+  <!-- <button
+  class="margin-r20"
+  nz-button
+  nzType="primary"
+  (click)="sendAsyncApiRequest()"
+>
   SendAsync Button
 </button>
-<button nz-button nzType="primary" (click)="sendSyncApiRequest()">
+<button
+  class="margin-r20"
+  nz-button
+  nzType="primary"
+  (click)="sendSyncApiRequest()"
+>
   SendSync Button
-</button>
+</button> -->
+  <button
+    class="margin-r20"
+    nz-button
+    nzType="primary"
+    (click)="navToCreate()"
+    *ngIf="!isCreating"
+  >
+    Create New Article
+  </button>
+</div>
+<router-outlet></router-outlet>

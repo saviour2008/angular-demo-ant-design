@@ -6,8 +6,18 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   styleUrls: ['./alert.component.css'],
 })
 export class AlertComponent implements OnInit {
-  @Output() alertEmitter = new EventEmitter();
-  @Input() type = 'success';
+  @Output() alertEmitter: EventEmitter<string> = new EventEmitter<string>();
+
+  _type = 'success';
+
+  @Input()
+  set type(value) {
+    this._type = value;
+  }
+
+  get type() {
+    return this._type;
+  }
   constructor() {}
 
   ngOnInit(): void {}

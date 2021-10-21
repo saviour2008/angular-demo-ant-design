@@ -80,3 +80,13 @@ nz-content {
   overflow: hidden;
   overflow-y: auto;
 }
+
+
+.header-login {
+  padding: 24px 30px;
+  font-size: 14px;
+  cursor: pointer;
+  float: right;
+  line-height: 1;
+  color: #1890ff;
+}

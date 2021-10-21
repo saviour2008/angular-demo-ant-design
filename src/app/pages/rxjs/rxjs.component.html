@@ -1,0 +1,27 @@
+<p><span>test concat</span><strong #concat></strong></p>
+<p><span>test concat</span><strong #strong></strong></p>
+<app-button></app-button>
+<div style="position: relative"><app-alert></app-alert></div>
+<app-layout
+  ><p>1111</p>
+  <div>2222</div></app-layout
+>
+<app-layout
+  ><h1>1111</h1>
+  <div>2222</div></app-layout
+>
+<app-layout
+  ><div ngProjectAs="h1"><h1>999</h1></div></app-layout
+>
+
+<app-layout [dynamicRef]="useBySlotRef"
+  ><div>下面是动态组件，由父组件进行传入</div></app-layout
+>
+
+<ng-template
+  #useBySlotRef
+  let-childDefaultValue
+  let-childPropValue="valueInContent"
+  >{{ childPropValue }}{{ childDefaultValue }}-----{{ parentValueInContent
+  }}<button (click)="handleSlotClick()">text</button></ng-template
+>

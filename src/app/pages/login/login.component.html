@@ -1,0 +1,44 @@
+<form
+  nz-form
+  [formGroup]="validateForm"
+  class="login-form"
+  (ngSubmit)="submitForm()"
+>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzRequired>Username:</nz-form-label>
+    <nz-form-control
+      [nzOffset]="2"
+      [nzSpan]="18"
+      nzErrorTip="Please input your username!"
+    >
+      <input
+        type="text"
+        nz-input
+        formControlName="userName"
+        placeholder="Username"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="6" nzRequired>Password</nz-form-label>
+    <nz-form-control
+      [nzOffset]="2"
+      [nzSpan]="18"
+      nzErrorTip="Please input your Password!"
+    >
+      <input
+        type="password"
+        nz-input
+        formControlName="password"
+        placeholder="Password"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <button
+    nz-button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+  >
+    Log in
+  </button>
+</form>

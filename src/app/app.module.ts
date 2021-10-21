@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 //https://zhuanlan.zhihu.com/p/113299696
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserService } from './user.service';
-import { NewUserService } from './new-user.service';
-import { UserServiceValue } from './user-value.service';
-import { UserServiceFactory } from './user-factory.service';
+import { UserService } from './service/user.service';
+import { NewUserService } from './service/new-user.service';
+import { UserServiceValue } from './service/user-value.service';
+import { UserServiceFactory } from './service/user-factory.service';
 import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -19,6 +19,12 @@ import { registerLocaleData } from '@angular/common';
 import zh from '@angular/common/locales/zh';
 import { MonitorModule } from './pages/monitor/monitor.module';
 import { AuthInterceptor } from './interceptors/app-http.interceptor';
+import { RxjsModule } from './pages/rxjs/rxjs.module';
+import { ResInterceptor } from './interceptors/res.interceptor';
+import { WebErrorHandler } from './handlers/web-error.handler';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { LoginModule } from './pages/login/login.module';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 registerLocaleData(zh);
 
@@ -33,11 +39,18 @@ registerLocaleData(zh);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MonitorModule,
+    NzMessageModule,
+    LoginModule,
+    NzModalModule,
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ResInterceptor, multi: true },
+    {
+      provide: ErrorHandler,
+      useClass: WebErrorHandler,
+    },
   ],
   bootstrap: [AppComponent],
 })

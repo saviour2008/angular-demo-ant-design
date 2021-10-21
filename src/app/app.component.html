@@ -28,7 +28,7 @@
             <a routerLink="/monitor">Monitor</a>
           </li>
           <li nz-menu-item nzMatchRouter>
-            <a>Workplace</a>
+            <a routerLink="/rxjs">RXJS</a>
           </li>
         </ul>
       </li>
@@ -51,7 +51,17 @@
             [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           ></i>
         </span>
+        <span class="header-login" (click)="navToLogin()">{{
+          isLogin ? "注销" : "登录"
+        }}</span>
       </div>
+      <nz-modal
+        [(nzVisible)]="isVisible"
+        (nzOnCancel)="handleCancel()"
+        (nzOnOk)="handleOk()"
+      >
+        <p>是否要退出登录</p>
+      </nz-modal>
     </nz-header>
     <nz-content>
       <div class="inner-content">

@@ -8,8 +8,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { AlertComponent } from 'src/app/components/alert/alert.component';
-import { NewUserService } from 'src/app/new-user.service';
-import { UserService } from 'src/app/user.service';
+import { NewUserService } from 'src/app/service/new-user.service';
+import { UserService } from 'src/app/service/user.service';
 import { CreditNumberPipe } from '../../pipes/credit-number.pipe';
 
 @Component({
@@ -54,6 +54,7 @@ export class WelcomeComponent implements OnInit {
 
   context = {
     message: 'Hello ngOutletContext!',
+    newMessage: 'Hello New ngOutletContext!',
     $implicit: 'Hello, Semlinker!',
   };
 

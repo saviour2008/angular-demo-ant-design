@@ -8,9 +8,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { AlertComponent } from 'src/app/components/alert/alert.component';
-import { NewUserService } from 'src/app/service/new-user.service';
-import { UserService } from 'src/app/service/user.service';
-import { CreditNumberPipe } from '../../pipes/credit-number.pipe';
+import { NewUserService } from 'src/app/shared/service/new-user.service';
+import { UserService } from 'src/app/shared/service/user.service';
+import { CreditNumberPipe } from '../../shared/pipes/credit-number.pipe';
 
 @Component({
   selector: 'app-welcome',

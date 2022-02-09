@@ -12,7 +12,7 @@ export class ErrorService {
     //   'Content-type',
     //   'application/json; charset=UTF-8'
     // ); // 设置请求头
-    return this.http.post('apidata/error', error);
+    return this.http.post('apidata/log/error', error);
     // .pipe(mapTo(true))
   }
 }

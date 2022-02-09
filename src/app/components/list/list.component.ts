@@ -2,8 +2,8 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ArticleService } from 'src/app/service/article.service';
-import { CommonListenerService } from 'src/app/service/common-listener.service';
+import { ArticleService } from 'src/app/shared/service/article.service';
+import { CommonListenerService } from 'src/app/shared/service/common-listener.service';
 
 @Component({
   selector: 'app-list',
@@ -14,6 +14,7 @@ export class ListComponent implements OnInit {
   data = [];
   initLoading = true;
   page = 1;
+  pageSize = 10;
   isEnd = false;
   isEditStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
@@ -25,12 +26,12 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.articleService
-      .getData({ page: this.page, limit: 2 })
+      .getData({ page: this.page, pageSize: this.pageSize })
       .pipe(catchError(this.handleBusinessError()))
       .subscribe((data: any) => {
         this.initLoading = false;
         this.page++;
-        this.data = this.data.concat(data.list);
+        this.data = this.data.concat(data.records);
         this.isEnd = data.isEnd;
       });
   }
@@ -46,19 +47,19 @@ export class ListComponent implements OnInit {
 
   onLoadMore() {
     this.articleService
-      .getData({ page: this.page, limit: 2 })
+      .getData({ page: this.page, pageSize: this.pageSize })
+      .pipe(catchError(this.handleBusinessError()))
       .subscribe((data: any) => {
         this.initLoading = false;
         this.page++;
-        this.data = this.data.concat(data.list);
+        this.data = this.data.concat(data.records);
         this.isEnd = data.isEnd;
       });
   }
 
   handleBusinessError() {
     return (error) => {
-      console.log('handle api customer api error' + error);
-      this.initLoading = false;
+      console.log('handle business error' + error);
       return EMPTY;
     };
   }

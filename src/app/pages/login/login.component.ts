@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/service/login.service';
-import { StorageService } from 'src/app/service/storage.service';
+import { LoginService } from 'src/app/shared/service/login.service';
+import { StorageService } from 'src/app/shared/service/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +19,11 @@ export class LoginComponent implements OnInit {
         this.validateForm.controls[i].updateValueAndValidity();
       }
     }
-    this.loginService
-      .postData(this.validateForm.value)
-      .subscribe((data: any) => {
-        this.router.navigate(['welcome']);
-        this.storageService.set('token', data.token);
-        this.storageService.set('role', data.role);
-      });
+    this.loginService.login(this.validateForm.value).subscribe((data: any) => {
+      this.router.navigate(['welcome']);
+      this.storageService.set('token', data.token);
+      this.storageService.set('role', data.role);
+    });
   }
 
   constructor(
@@ -36,10 +34,20 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('test')
+    console.log('test');
     this.validateForm = this.fb.group({
       userName: [null, [Validators.required]],
       password: [null, [Validators.required]],
     });
+    this.readFileData().then((data) => {
+      console.log(data);
+    });
+  }
+  // async函数返回得是promise，如果方法里面用了await，外面必须用async
+  // await 返回得是正常值
+  async readFileData() {
+    const data = await Promise.resolve(2);
+    console.log(data);
+    return 1;
   }
 }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ArticleService } from 'src/app/service/article.service';
-import { CommonListenerService } from 'src/app/service/common-listener.service';
+import { ArticleService } from 'src/app/shared/service/article.service';
+import { CommonListenerService } from 'src/app/shared/service/common-listener.service';
 
 @Component({
   selector: 'app-monitor',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ArticleService } from 'src/app/service/article.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ArticleService } from 'src/app/shared/service/article.service';
 import {
   FormBuilder,
   FormControl,
@@ -8,7 +8,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
+import { EMPTY, Observable, Observer } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-item',
@@ -18,10 +20,13 @@ import { Observable, Observer } from 'rxjs';
 export class ItemComponent implements OnInit {
   validateForm: FormGroup;
   userId = '';
+  initLoading = false;
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private articleService: ArticleService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -30,27 +35,30 @@ export class ItemComponent implements OnInit {
       this.validateForm = this.fb.group({
         title: ['', [Validators.required], [this.userNameAsyncValidator]],
         writer: ['', [Validators.email, Validators.required]],
-        password: ['', [Validators.required]],
-        confirm: ['', [this.confirmValidator]],
+        // password: ['', [Validators.required]],
+        // confirm: ['', [this.confirmValidator]],
         content: ['', [Validators.required]],
+        articlePicture: ['', [Validators.required]],
       });
       if (this.userId) {
-        this.articleService.getData(this.userId).subscribe((res) => {
+        this.articleService.getArticle(this.userId).subscribe((res) => {
           console.log(res);
           this.validateForm.controls.title.setValue(res.title);
           this.validateForm.controls.writer.setValue(res.writer);
           this.validateForm.get('content').setValue(res.content);
+          this.validateForm.get('articlePicture').setValue(res.articlePicture);
         });
       }
     });
   }
 
   submitForm(value: {
-    userName: string;
-    email: string;
-    password: string;
-    confirm: string;
-    comment: string;
+    title: string;
+    writer: string;
+    // password: string;
+    // confirm: string;
+    content: string;
+    articlePicture: string;
   }): void {
     for (const key in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(key)) {
@@ -58,7 +66,12 @@ export class ItemComponent implements OnInit {
         this.validateForm.controls[key].updateValueAndValidity();
       }
     }
-    console.log(value);
+    this.initLoading = true;
+    if (this.userId) {
+      this.updateArticle({ id: this.userId, ...value });
+    } else {
+      this.createArticle(value);
+    }
   }
 
   resetForm(e: MouseEvent): void {
@@ -99,4 +112,43 @@ export class ItemComponent implements OnInit {
     }
     return {};
   };
+
+  handleBusinessError() {
+    return (error) => {
+      console.log('handle business error' + error);
+      return EMPTY;
+    };
+  }
+
+  createArticle(value) {
+    this.articleService
+      .create(value)
+      .pipe(
+        catchError(this.handleBusinessError()),
+        finalize(() => {
+          // 不管怎么走，error或者complete都会隐藏loading
+          this.initLoading = false;
+        })
+      )
+      .subscribe((data: any) => {
+        this.message.create('success', '创建成功');
+        this.router.navigate(['monitor/list']);
+      });
+  }
+
+  updateArticle(value) {
+    this.articleService
+      .update(value)
+      .pipe(
+        catchError(this.handleBusinessError()),
+        finalize(() => {
+          // 不管怎么走，error或者complete都会隐藏loading
+          this.initLoading = false;
+        })
+      )
+      .subscribe((data: any) => {
+        this.message.create('success', '更新成功');
+        this.router.navigate(['monitor/list']);
+      });
+  }
 }

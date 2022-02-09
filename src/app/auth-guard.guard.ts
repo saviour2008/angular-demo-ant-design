@@ -8,9 +8,9 @@ import {
 } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Observable } from 'rxjs';
-import { RoleType } from './constants/common.constant';
-import { CommonListenerService } from './service/common-listener.service';
-import { StorageService } from './service/storage.service';
+import { RoleType } from './shared/constants/common.constant';
+import { CommonListenerService } from './shared/service/common-listener.service';
+import { StorageService } from './shared/service/storage.service';
 
 @Injectable({
   providedIn: 'root',

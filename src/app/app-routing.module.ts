@@ -24,6 +24,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/rxjs/rxjs.module').then((m) => m.RxjsModule),
   },
+  {
+    path: 'chat',
+    loadChildren: () =>
+      import('./pages/chat/chat.module').then((m) => m.ChatModule),
+  },
   { path: '', pathMatch: 'full', redirectTo: '/welcome' },
   { path: '**', component: PageNotFoundComponent },
 ];

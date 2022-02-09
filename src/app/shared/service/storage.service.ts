@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BaseService } from './base.service';
 
@@ -6,8 +6,8 @@ import { BaseService } from './base.service';
   providedIn: 'root',
 })
 export class StorageService extends BaseService {
-  constructor(message: NzMessageService) {
-    super(message);
+  constructor(message: NzMessageService, injector: Injector) {
+    super(injector, message);
   }
 
   set(key, value) {

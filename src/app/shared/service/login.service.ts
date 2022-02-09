@@ -1,14 +1,19 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { catchError } from 'rxjs/operators';
 import { BaseService } from './base.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService extends BaseService {
-  constructor(private httpClient: HttpClient, message: NzMessageService) {
-    super(message);
+  constructor(
+    private httpClient: HttpClient,
+    injector: Injector,
+    message: NzMessageService
+  ) {
+    super(injector, message);
   }
 
   // 服务端不保存 sessionId，用户登录系统后，服务器给他下发一个令牌(token)，下一次用户再次通过 Http 请求访问服务器的时候，
@@ -17,7 +22,9 @@ export class LoginService extends BaseService {
   // 当用户再次请求过来的时候我用同样的算法和密钥对这个 token 中的数据进行加密，如果加密后的结果和 token 中的签名一致，
   // 那我们就可以进行鉴权，并且也能从中取得用户信息。
   // https://juejin.cn/post/6890377073366597645#heading-15
-  postData(form) {
-    return this.httpClient.post('apidata/login', form);
+  login(form) {
+    return this.httpClient
+      .post('apidata/users/login', form)
+      .pipe(catchError(this.handleCommonError()));
   }
 }

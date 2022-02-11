@@ -25,24 +25,30 @@ export class ListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.articleService
-      .getData({ page: this.page, pageSize: this.pageSize })
-      .pipe(catchError(this.handleBusinessError()))
-      .subscribe((data: any) => {
-        this.initLoading = false;
-        this.page++;
-        this.data = this.data.concat(data.records);
-        this.isEnd = data.isEnd;
-      });
+    this.route.params.subscribe((params) => {
+      this.commonListenerService.editStatus$.next(false);
+    });
+    this.initList();
   }
 
   edit(id) {
     // 相对于现在的路由往上找一层，然后再进入这个路由
     this.isEditStatus.emit(true);
-    this.commonListenerService.editStatus$.next(true);
     this.router.navigate(['../item', id], {
       relativeTo: this.route,
     });
+  }
+
+  delete(id) {
+    this.articleService
+      .deleteArticle(id)
+      .pipe(catchError(this.handleBusinessError()))
+      .subscribe((data: any) => {
+        this.page = 1;
+        this.pageSize = 10;
+        this.data = [];
+        this.initList();
+      });
   }
 
   onLoadMore() {
@@ -62,5 +68,17 @@ export class ListComponent implements OnInit {
       console.log('handle business error' + error);
       return EMPTY;
     };
+  }
+
+  initList() {
+    this.articleService
+      .getData({ page: this.page, pageSize: this.pageSize })
+      .pipe(catchError(this.handleBusinessError()))
+      .subscribe((data: any) => {
+        this.initLoading = false;
+        this.page++;
+        this.data = this.data.concat(data.records);
+        this.isEnd = data.isEnd;
+      });
   }
 }

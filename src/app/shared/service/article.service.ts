@@ -110,6 +110,12 @@ export class ArticleService extends BaseService {
       .pipe(catchError(this.handleCommonError()));
   }
 
+  deleteArticle(id) {
+    return this.httpClient
+      .delete(`apidata/articles/${id}`)
+      .pipe(catchError(this.handleCommonError()));
+  }
+
   sendAsyncApiRequest() {
     // 并行发送多个 Http 请求
     const parallel$ = forkJoin([

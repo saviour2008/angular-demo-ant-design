@@ -11,6 +11,8 @@ import {
 import { EMPTY, Observable, Observer } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { NzMessageService } from 'ng-zorro-antd';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { CommonListenerService } from 'src/app/shared/service/common-listener.service';
 
 @Component({
   selector: 'app-item',
@@ -21,16 +23,23 @@ export class ItemComponent implements OnInit {
   validateForm: FormGroup;
   userId = '';
   initLoading = false;
+  loading = false;
+  avatarUrl?: string | ArrayBuffer;
+  fileList: NzUploadFile[] = [];
+  previewImage: string | undefined = '';
+  previewVisible = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private articleService: ArticleService,
     private fb: FormBuilder,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private commonListenerService: CommonListenerService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      this.commonListenerService.editStatus$.next(true);
       this.userId = params.id;
       this.validateForm = this.fb.group({
         title: ['', [Validators.required], [this.userNameAsyncValidator]],
@@ -38,7 +47,6 @@ export class ItemComponent implements OnInit {
         // password: ['', [Validators.required]],
         // confirm: ['', [this.confirmValidator]],
         content: ['', [Validators.required]],
-        articlePicture: ['', [Validators.required]],
       });
       if (this.userId) {
         this.articleService.getArticle(this.userId).subscribe((res) => {
@@ -46,7 +54,7 @@ export class ItemComponent implements OnInit {
           this.validateForm.controls.title.setValue(res.title);
           this.validateForm.controls.writer.setValue(res.writer);
           this.validateForm.get('content').setValue(res.content);
-          this.validateForm.get('articlePicture').setValue(res.articlePicture);
+          this.avatarUrl = res.articlePicture;
         });
       }
     });
@@ -58,7 +66,6 @@ export class ItemComponent implements OnInit {
     // password: string;
     // confirm: string;
     content: string;
-    articlePicture: string;
   }): void {
     for (const key in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(key)) {
@@ -68,9 +75,13 @@ export class ItemComponent implements OnInit {
     }
     this.initLoading = true;
     if (this.userId) {
-      this.updateArticle({ id: this.userId, ...value });
+      this.updateArticle({
+        id: this.userId,
+        ...value,
+        articlePicture: this.avatarUrl,
+      });
     } else {
-      this.createArticle(value);
+      this.createArticle({ ...value, articlePicture: this.avatarUrl });
     }
   }
 
@@ -151,4 +162,42 @@ export class ItemComponent implements OnInit {
         this.router.navigate(['monitor/list']);
       });
   }
+
+  blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        this.avatarUrl = e.target.result;
+        resolve(e.target.result);
+      };
+      // readAsDataURL
+      fileReader.readAsDataURL(blob);
+      fileReader.onerror = () => {
+        reject(new Error('文件流异常'));
+      };
+    });
+  }
+
+  beforeUpload = (
+    file: NzUploadFile,
+    _fileList: NzUploadFile[]
+  ): Observable<boolean> =>
+    new Observable((observer: Observer<boolean>) => {
+      this.blobToBase64(file);
+      const isJpgOrPng =
+        file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        this.message.error('You can only upload JPG file!');
+        observer.complete();
+        return;
+      }
+      const isLt2M = file.size! / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.message.error('Image must smaller than 2MB!');
+        observer.complete();
+        return;
+      }
+      observer.next(isJpgOrPng && isLt2M);
+      observer.complete();
+    });
 }

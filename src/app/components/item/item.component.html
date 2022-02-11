@@ -106,14 +106,20 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>articlePicture</nz-form-label>
       <nz-form-control [nzSpan]="12" nzErrorTip="Please write something here!">
-        <textarea
-          formControlName="articlePicture"
-          nz-input
-          rows="2"
-          placeholder="write any thing"
-        ></textarea>
+        <nz-upload
+          class="avatar-uploader"
+          nzListType="picture-card"
+          [nzShowUploadList]="false"
+          [nzBeforeUpload]="beforeUpload"
+        >
+          <ng-container *ngIf="!avatarUrl">
+            <div class="ant-upload-text">Upload</div>
+          </ng-container>
+          <img *ngIf="avatarUrl" [src]="avatarUrl" style="width: 100%" />
+        </nz-upload>
       </nz-form-control>
     </nz-form-item>
+
     <nz-form-item>
       <nz-form-control [nzOffset]="7" [nzSpan]="12">
         <button nz-button nzType="primary" [disabled]="!validateForm.valid">

@@ -24,6 +24,8 @@ export class MonitorComponent implements OnInit {
       this.commonListenerService.editStatus$.subscribe((value) => {
         if (value && !this.isCreating) {
           this.isCreating = true;
+        } else {
+          this.isCreating = false;
         }
       });
   }

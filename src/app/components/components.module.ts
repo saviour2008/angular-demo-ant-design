@@ -14,6 +14,8 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 @NgModule({
   declarations: [
     AlertComponent,
@@ -31,7 +33,9 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
     NzButtonModule,
     ReactiveFormsModule,
     NzFormModule,
-    NzSpinModule
+    NzSpinModule,
+    NzUploadModule,
+    NzIconModule,
   ],
   exports: [
     AlertComponent,

@@ -18,7 +18,7 @@ export class ListComponent implements OnInit {
   pageSize = 10;
   isEnd = false;
   confirmModal?: NzModalRef;
-  isEditStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
+  // isEditStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private articleService: ArticleService,
     private router: Router,
@@ -37,7 +37,7 @@ export class ListComponent implements OnInit {
 
   edit(id) {
     // 相对于现在的路由往上找一层，然后再进入这个路由
-    this.isEditStatus.emit(true);
+    // this.isEditStatus.emit(true);
     this.router.navigate(['../item', id], {
       relativeTo: this.route,
     });

@@ -67,6 +67,20 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="10" nzFor="role" nzRequired>职位</nz-form-label>
+    <nz-form-control
+      [nzSpan]="14"
+      nzHasFeedback
+      nzErrorTip="Please select your role!"
+    >
+      <nz-select id="role" formControlName="role" nzPlaceHolder="Select a role">
+        <nz-option [nzValue]="roleType.Admin" nzLabel="组长"></nz-option>
+        <nz-option [nzValue]="roleType.Visitor" nzLabel="组员"></nz-option>
+        <nz-option [nzValue]="roleType.Manager" nzLabel="经理"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
   <button
     nz-button
     class="login-form-button login-form-margin"

@@ -27,8 +27,8 @@ export class ResInterceptor implements HttpInterceptor {
         // 如果返回的是error(指的不是服务器内部处理后的error)，
         // 如果发送API的地方用了catchError，这样会进入到baseService的handleCommonError
         // 如果发送API的地方没有错误处理，那么就会直接进入到web-error的handleError
-        // throw error.error;
-        return throwError(error);
+        // 因为后端加了HttpExceptionFilter
+        return throwError(error.error);
       }),
       map((event) => {
         // 返回状态码是200的情况

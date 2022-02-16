@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // http://www.semlinker.com/ng-meta-service/
     const clonedRequest = req.clone({
       headers: req.headers
-        .set('Auth', this.token || 'visitor')
+        .set('Authorization', `Bearer ${this.token}`)
         .set('Content-type', 'application/json; charset=UTF-8'),
       // ,
     });

@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService, NzModalRef, NzModalService } from 'ng-zorro-antd';
 import { EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ArticleService } from 'src/app/shared/service/article.service';
@@ -16,12 +17,15 @@ export class ListComponent implements OnInit {
   page = 1;
   pageSize = 10;
   isEnd = false;
+  confirmModal?: NzModalRef;
   isEditStatus: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private articleService: ArticleService,
     private router: Router,
     private route: ActivatedRoute,
-    private commonListenerService: CommonListenerService
+    private commonListenerService: CommonListenerService,
+    private message: NzMessageService,
+    private modal: NzModalService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +44,18 @@ export class ListComponent implements OnInit {
   }
 
   delete(id) {
+    this.confirmModal = this.modal.confirm({
+      nzTitle: 'Are you sure delete this article?',
+      nzContent: '<b style="color: red;">Some descriptions</b>',
+      nzOkText: 'Yes',
+      nzOkType: 'primary',
+      nzOnOk: this.confirmDelete.bind(this, id),
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Cancel'),
+    });
+  }
+
+  confirmDelete(id) {
     this.articleService
       .deleteArticle(id)
       .pipe(catchError(this.handleBusinessError()))
@@ -48,6 +64,7 @@ export class ListComponent implements OnInit {
         this.pageSize = 10;
         this.data = [];
         this.initList();
+        this.message.create('success', '删除成功');
       });
   }
 

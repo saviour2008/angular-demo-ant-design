@@ -30,6 +30,7 @@ export class AuthGuardGuard implements CanActivate {
     | boolean
     | UrlTree {
     return new Observable((observer) => {
+      // 如果动态想获得role是什么角色，可以用token请求API，然后破解后，返回role的值来判断是进路由还是返回
       if (this.storageService.get('role') === RoleType.Admin) {
         observer.next(true);
         observer.complete();

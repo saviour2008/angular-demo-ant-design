@@ -16,6 +16,7 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzModalModule } from 'ng-zorro-antd';
 @NgModule({
   declarations: [
     AlertComponent,
@@ -36,6 +37,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
     NzSpinModule,
     NzUploadModule,
     NzIconModule,
+    NzModalModule,
   ],
   exports: [
     AlertComponent,

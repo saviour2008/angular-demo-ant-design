@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RoleType } from 'src/app/shared/constants/common.constant';
 import { LoginService } from 'src/app/shared/service/login.service';
 import { StorageService } from 'src/app/shared/service/storage.service';
 
@@ -16,6 +17,7 @@ import { StorageService } from 'src/app/shared/service/storage.service';
 })
 export class RegisterComponent implements OnInit {
   validateForm: FormGroup;
+  roleType = RoleType;
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {
@@ -52,6 +54,7 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required]],
       confirm: ['', [this.confirmValidator]],
       phone: [null, [Validators.required]],
+      role: [''],
     });
   }
 

@@ -50,4 +50,8 @@ export class LoginComponent implements OnInit {
     console.log(data);
     return 1;
   }
+
+  navToRegister() {
+    this.router.navigate(['register']);
+  }
 }

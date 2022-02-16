@@ -27,4 +27,10 @@ export class LoginService extends BaseService {
       .post('apidata/users/login', form)
       .pipe(catchError(this.handleCommonError()));
   }
+
+  register(form) {
+    return this.httpClient
+      .post('apidata/users/register', form)
+      .pipe(catchError(this.handleCommonError()));
+  }
 }

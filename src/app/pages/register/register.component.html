@@ -1,0 +1,77 @@
+<form
+  nz-form
+  [formGroup]="validateForm"
+  class="login-form"
+  (ngSubmit)="submitForm()"
+>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="10" nzRequired>Username</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your username!">
+      <input
+        type="text"
+        nz-input
+        formControlName="userName"
+        placeholder="Username"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="10" nzRequired>Phone</nz-form-label>
+    <nz-form-control [nzSpan]="14" nzErrorTip="Please input your phone!">
+      <input
+        type="number"
+        nz-input
+        formControlName="phone"
+        placeholder="Phone"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="10" nzRequired>Password</nz-form-label>
+    <nz-form-control
+      [nzSpan]="14"
+      nzHasFeedback
+      nzErrorTip="Please input your password!"
+    >
+      <input
+        nz-input
+        autocomplete
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        (ngModelChange)="validateConfirmPassword()"
+      />
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSpan]="10" nzRequired>Confirm Password</nz-form-label>
+    <nz-form-control
+      [nzSpan]="14"
+      nzHasFeedback
+      [nzErrorTip]="passwordErrorTpl"
+    >
+      <input
+        nz-input
+        autocomplete
+        type="password"
+        formControlName="confirm"
+        placeholder="confirm your password"
+      />
+      <ng-template #passwordErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Please confirm your password!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('confirm')"
+          >Password is inconsistent!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <button
+    nz-button
+    class="login-form-button login-form-margin"
+    [nzType]="'primary'"
+  >
+    Register
+  </button>
+</form>

@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['welcome']);
       this.storageService.set('token', data.token);
       this.storageService.set('role', data.role);
+      this.storageService.set('name', this.validateForm.value.userName);
     });
   }
 

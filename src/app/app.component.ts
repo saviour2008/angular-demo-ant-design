@@ -14,6 +14,9 @@ export class AppComponent {
   get isLogin() {
     return this.storageService.get('token');
   }
+  get userName() {
+    return this.storageService.get('name');
+  }
   navToLogin() {
     if (this.isLogin) {
       this.showModal();

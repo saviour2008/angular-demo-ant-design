@@ -90,3 +90,10 @@ nz-content {
   line-height: 1;
   color: #1890ff;
 }
+.header-info {
+  padding: 24px 10px;
+  font-size: 14px;
+  float: right;
+  line-height: 1;
+  color: #c1c1c1;
+}

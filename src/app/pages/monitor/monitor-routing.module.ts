@@ -24,6 +24,7 @@ const routes: Routes = [
       {
         path: 'new', // child route path
         component: ItemComponent, // child route component that the router renders
+        canActivate: [AuthGuardGuard],
       },
       { path: '', redirectTo: '/monitor/list', pathMatch: 'full' }, //注意redirectTo的时候要加/，或者这么写“{ path: '', redirectTo: 'list' },”
     ],

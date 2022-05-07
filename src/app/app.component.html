@@ -57,6 +57,7 @@
         <span class="header-login" (click)="navToLogin()">{{
           isLogin ? "注销" : "登录"
         }}</span>
+        <span class="header-info">{{ userName || 'visitor' }}</span>
       </div>
       <nz-modal
         [(nzVisible)]="isVisible"

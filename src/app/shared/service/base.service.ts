@@ -29,7 +29,7 @@ export class BaseService {
         this.message.create('error', error.message);
         return EMPTY;
       } else if (error.status === 401) {
-        this.message.create('error', '当前用户无权限');
+        this.message.create('error', error.message || '当前用户无权限');
         return EMPTY;
       }
       // 传递给各个页面自己处理，走各个页面的handleBusinessError,

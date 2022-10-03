@@ -15,7 +15,7 @@ import {
   map,
   mapTo,
   mergeAll,
-} from 'RxJS/operators';
+} from 'rxjs/operators';
 import {
   of,
   concat,
@@ -27,7 +27,7 @@ import {
   from,
   zip,
   combineLatest,
-} from 'RxJS';
+} from 'rxjs';
 import { Observable, forkJoin } from 'rxjs';
 @Component({
   selector: 'app-rxjs',

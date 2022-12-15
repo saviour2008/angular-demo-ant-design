@@ -3,7 +3,7 @@
 <div *ngIf="dynamicRef">
   <ng-content></ng-content>
   <button (click)="show = !show">
-    {{ show ? "Hide" : "Show" }}
+    {{ show ? 'Hide' : 'Show' }}
   </button>
   <ng-container *ngIf="show"
     ><template *ngTemplateOutlet="dynamicRef; context: myContext"> </template

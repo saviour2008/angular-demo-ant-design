@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { catchError } from 'rxjs/operators';
-import { BaseService } from './base.service';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
+import { Injectable, Injector } from '@angular/core'
+import { NzMessageService } from 'ng-zorro-antd/message'
+import { catchError } from 'rxjs/operators'
+import { BaseService } from './base.service'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class LoginService extends BaseService {
   constructor(
@@ -13,7 +13,7 @@ export class LoginService extends BaseService {
     injector: Injector,
     message: NzMessageService
   ) {
-    super(injector, message);
+    super(injector, message)
   }
 
   // 服务端不保存 sessionId，用户登录系统后，服务器给他下发一个令牌(token)，下一次用户再次通过 Http 请求访问服务器的时候，
@@ -25,12 +25,12 @@ export class LoginService extends BaseService {
   login(form) {
     return this.httpClient
       .post('apidata/users/login', form)
-      .pipe(catchError(this.handleCommonError()));
+      .pipe(catchError(this.handleCommonError()))
   }
 
   register(form) {
     return this.httpClient
       .post('apidata/users/register', form)
-      .pipe(catchError(this.handleCommonError()));
+      .pipe(catchError(this.handleCommonError()))
   }
 }

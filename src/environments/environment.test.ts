@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseUrl: 'test',
-};
+  baseUrl: 'test'
+}
 // ng build --configuration=test

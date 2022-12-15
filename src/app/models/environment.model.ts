@@ -1,21 +1,21 @@
 export interface Environment {
-  production: boolean;
-  authHeaderWhiteList: string[];
+  production: boolean
+  authHeaderWhiteList: string[]
   apiUrl: {
-    appbank: string;
-  };
+    appbank: string
+  }
   network: {
-    timeout: number;
-  };
+    timeout: number
+  }
   logLevel: {
-    console: string;
-    server: string;
-  };
+    console: string
+    server: string
+  }
   app?: {
-    dummyPhoneNumber?: string;
-    icReadStub?: boolean;
-  };
+    dummyPhoneNumber?: string
+    icReadStub?: boolean
+  }
   encryption?: {
-    pubKeyFile?: string;
-  };
+    pubKeyFile?: string
+  }
 }

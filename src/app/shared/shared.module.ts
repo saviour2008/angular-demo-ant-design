@@ -1,10 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { ComponentsModule } from '../components/components.module';
-import { CreditCardDirective } from './directives/creditCard.directive';
-import { TooltipDirective } from './directives/tooltip.directive';
-import { CreditNumberPipe } from './pipes/credit-number.pipe';
-import { FileSizePipe } from './pipes/file-size.pipe';
+import { CommonModule } from '@angular/common'
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
+import { ComponentsModule } from '../components/components.module'
+import { CreditCardDirective } from './directives/creditCard.directive'
+import { TooltipDirective } from './directives/tooltip.directive'
+import { CreditNumberPipe } from './pipes/credit-number.pipe'
+import { FileSizePipe } from './pipes/file-size.pipe'
 
 /**
  * Shared module
@@ -19,15 +19,15 @@ import { FileSizePipe } from './pipes/file-size.pipe';
     CreditNumberPipe,
     FileSizePipe,
     CreditCardDirective,
-    TooltipDirective,
+    TooltipDirective
   ],
   exports: [
     CreditNumberPipe,
     FileSizePipe,
     CreditCardDirective,
     TooltipDirective,
-    ComponentsModule,
+    ComponentsModule
   ],
-  providers: [FileSizePipe, CreditNumberPipe],
+  providers: [FileSizePipe, CreditNumberPipe]
 })
 export class SharedModule {}

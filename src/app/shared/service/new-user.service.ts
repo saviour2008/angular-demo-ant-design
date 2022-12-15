@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core'
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class NewUserService {
-  name = 'test new data';
+  name = 'test new data'
   constructor() {}
 
   getData() {
-    return 'new-data';
+    return 'new-data'
   }
 }

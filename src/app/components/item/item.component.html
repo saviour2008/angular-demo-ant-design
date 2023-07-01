@@ -5,50 +5,24 @@
 <!-- <button (click)="updateName()">update</button> -->
 
 <nz-spin [nzSpinning]="initLoading">
-  <form
-    nz-form
-    [formGroup]="validateForm"
-    (ngSubmit)="submitForm(validateForm.value)"
-  >
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm(validateForm.value)">
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>title</nz-form-label>
-      <nz-form-control
-        [nzSpan]="12"
-        nzHasFeedback
-        nzValidatingTip="Validating..."
-        [nzErrorTip]="userErrorTpl"
-      >
-        <input
-          nz-input
-          formControlName="title"
-          placeholder="async validate try to write JasonWood"
-        />
+      <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="userErrorTpl">
+        <input nz-input formControlName="title" placeholder="async validate try to write JasonWood" />
         <ng-template #userErrorTpl let-control>
-          <ng-container *ngIf="control.hasError('required')"
-            >Please input your username!</ng-container
-          >
-          <ng-container *ngIf="control.hasError('duplicated')"
-            >The username is redundant!</ng-container
-          >
+          <ng-container *ngIf="control.hasError('required')">Please input your title!</ng-container>
+          <ng-container *ngIf="control.hasError('duplicated')">The username is redundant!</ng-container>
         </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>writer</nz-form-label>
       <nz-form-control [nzSpan]="12" nzHasFeedback [nzErrorTip]="emailErrorTpl">
-        <input
-          nz-input
-          formControlName="writer"
-          placeholder="writer@email"
-          type="email"
-        />
+        <input nz-input formControlName="writer" placeholder="writer@email" type="email" />
         <ng-template #emailErrorTpl let-control>
-          <ng-container *ngIf="control.hasError('email')"
-            >The input is not valid E-mail!</ng-container
-          >
-          <ng-container *ngIf="control.hasError('required')"
-            >Please input your E-mail!</ng-container
-          >
+          <ng-container *ngIf="control.hasError('email')">The input is not valid E-mail!</ng-container>
+          <ng-container *ngIf="control.hasError('required')">Please input your E-mail!</ng-container>
         </ng-template>
       </nz-form-control>
     </nz-form-item>
@@ -95,23 +69,14 @@
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>content</nz-form-label>
       <nz-form-control [nzSpan]="12" nzErrorTip="Please write something here!">
-        <textarea
-          formControlName="content"
-          nz-input
-          rows="2"
-          placeholder="write any thing"
-        ></textarea>
+        <textarea formControlName="content" nz-input rows="2" placeholder="write any thing"></textarea>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label [nzSpan]="4" nzRequired>articlePicture</nz-form-label>
       <nz-form-control [nzSpan]="12" nzErrorTip="Please write something here!">
-        <nz-upload
-          class="avatar-uploader"
-          nzListType="picture-card"
-          [nzShowUploadList]="false"
-          [nzBeforeUpload]="beforeUpload"
-        >
+        <nz-upload class="avatar-uploader" nzListType="picture-card" [nzShowUploadList]="false" [nzSize]="2000"
+          formControlName="articlePicture" [nzBeforeUpload]="beforeUpload" (nzChange)="handleChange($event)">
           <ng-container *ngIf="!avatarUrl">
             <div class="ant-upload-text">Upload</div>
           </ng-container>

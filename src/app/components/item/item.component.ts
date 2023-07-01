@@ -11,7 +11,7 @@ import {
 import { EMPTY, Observable, Observer } from 'rxjs'
 import { catchError, finalize } from 'rxjs/operators'
 import { NzMessageService } from 'ng-zorro-antd'
-import { NzUploadFile } from 'ng-zorro-antd/upload'
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload'
 import { CommonListenerService } from 'src/app/shared/service/common-listener.service'
 
 @Component({
@@ -35,7 +35,7 @@ export class ItemComponent implements OnInit {
     private fb: FormBuilder,
     private message: NzMessageService,
     private commonListenerService: CommonListenerService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -46,18 +46,30 @@ export class ItemComponent implements OnInit {
         writer: ['', [Validators.email, Validators.required]],
         // password: ['', [Validators.required]],
         // confirm: ['', [this.confirmValidator]],
-        content: ['', [Validators.required]]
+        content: ['', [Validators.required]],
+        articlePicture: ['', [Validators.required]],
       })
       if (this.userId) {
         this.articleService.getArticle(this.userId).subscribe((res) => {
-          console.log(res)
           this.validateForm.controls.title.setValue(res.title)
           this.validateForm.controls.writer.setValue(res.writer)
           this.validateForm.get('content').setValue(res.content)
+          this.validateForm.get('articlePicture').setValue(res.articlePicture)
           this.avatarUrl = res.articlePicture
         })
       }
     })
+  }
+
+  handleChange(info: NzUploadChangeParam): void {
+    if (info.file.status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (info.file.status === 'done') {
+      this.message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === 'error') {
+      this.message.error(`${info.file.name} file upload failed.`);
+    }
   }
 
   submitForm(value: {
@@ -65,7 +77,8 @@ export class ItemComponent implements OnInit {
     writer: string
     // password: string;
     // confirm: string;
-    content: string
+    content: string,
+    articlePicture: string
   }): void {
     for (const key in this.validateForm.controls) {
       if (this.validateForm.controls.hasOwnProperty(key)) {
@@ -77,11 +90,10 @@ export class ItemComponent implements OnInit {
     if (this.userId) {
       this.updateArticle({
         id: this.userId,
-        ...value,
-        articlePicture: this.avatarUrl
+        ...value
       })
     } else {
-      this.createArticle({ ...value, articlePicture: this.avatarUrl })
+      this.createArticle({ ...value })
     }
   }
 
@@ -167,6 +179,7 @@ export class ItemComponent implements OnInit {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader()
       fileReader.onload = (e) => {
+        this.validateForm.get('articlePicture').setValue(e.target.result);
         this.avatarUrl = e.target.result
         resolve(e.target.result)
       }
@@ -178,25 +191,43 @@ export class ItemComponent implements OnInit {
     })
   }
 
+  // beforeUpload = (
+  //   file: NzUploadFile,
+  //   _fileList: NzUploadFile[]
+  // ): Observable<boolean> =>
+  //   new Observable((observer: Observer<boolean>) => {
+  //     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  //     if (!isJpgOrPng) {
+  //       this.message.error('You can only upload JPG file!')
+  //       observer.complete()
+  //       return
+  //     }
+  //     const isLt2M = file.size! / 1024 / 1024 < 2
+  //     if (!isLt2M) {
+  //       this.message.error('Image must smaller than 2MB!')
+  //       observer.complete()
+  //       return
+  //     }
+  //     this.blobToBase64(file)
+  //     observer.next(isJpgOrPng && isLt2M)
+  //     observer.complete()
+  //   })
+
   beforeUpload = (
     file: NzUploadFile,
     _fileList: NzUploadFile[]
-  ): Observable<boolean> =>
-    new Observable((observer: Observer<boolean>) => {
-      this.blobToBase64(file)
-      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
-      if (!isJpgOrPng) {
-        this.message.error('You can only upload JPG file!')
-        observer.complete()
-        return
-      }
-      const isLt2M = file.size! / 1024 / 1024 < 2
-      if (!isLt2M) {
-        this.message.error('Image must smaller than 2MB!')
-        observer.complete()
-        return
-      }
-      observer.next(isJpgOrPng && isLt2M)
-      observer.complete()
-    })
+  ) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    if (!isJpgOrPng) {
+      this.message.error('You can only upload JPG file!')
+      return false
+    }
+    const isLt2M = file.size! / 1024 / 1024 < 2
+    if (!isLt2M) {
+      this.message.error('Image must smaller than 2MB!')
+      return false
+    }
+    this.blobToBase64(file)
+    return false
+  }
 }
